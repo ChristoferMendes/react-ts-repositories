@@ -9,10 +9,9 @@ interface RepositoriesState {
     data: {
       name: string;
     }
-    name?: string;
 }
 
-interface User {
+interface Repository {
   full_name: string;
 }
 
@@ -27,7 +26,7 @@ export const Main = () => {
     const repoStorage = localStorage.getItem('repos');
 
     if (repoStorage) {
-      setRepositories(JSON.parse(repoStorage))
+      setRepositories(JSON.parse(repoStorage) || [])
     }
   }, [])
 
@@ -48,7 +47,7 @@ export const Main = () => {
           throw new Error('You need to type a repository')
         }
 
-        const response = await api.get<User>(`repos/${newRepo}`);
+        const response = await api.get<Repository>(`repos/${newRepo}`);
 
         const hasRepo = repositories.find(repo => repo.data.name.toUpperCase() === newRepo.toUpperCase()) 
 
@@ -81,7 +80,7 @@ export const Main = () => {
     setAlert(false);
   }
 
-  const handleDelete = useCallback((repo: any) => {
+  const handleDelete = useCallback((repo: string) => {
     const find = repositories.filter(r => r.data.name !== repo);
     setRepositories(find);
   }, [repositories])
@@ -114,7 +113,7 @@ export const Main = () => {
                     </DeleteButton>
                     {repo.data.name}
                     </span>
-                  <Link to={`repository/${repo.data.name}`}>
+                  <Link to={`repository/${encodeURIComponent(repo.data.name)}`}>
                     <FaBars size={20}/>
                   </Link>
                 </li>
