@@ -8,11 +8,13 @@ import { Link } from 'react-router-dom';
 interface RepositoriesState {
     data: {
       name: string;
+      url: string;
     }
 }
 
 interface Repository {
   full_name: string;
+  html_url: string;
 }
 
 
@@ -57,7 +59,7 @@ export const Main = () => {
         }
 
 
-        const data = { name: response.data.full_name }
+        const data = { name: response.data.full_name, url: response.data.html_url }
     
         setRepositories(prev => [...prev, { data }])
         setNewRepo('');
@@ -85,6 +87,7 @@ export const Main = () => {
     setRepositories(find);
   }, [repositories])
 
+
   return (
     <Container>
       <h1>
@@ -111,10 +114,10 @@ export const Main = () => {
                     <DeleteButton onClick={() => handleDelete(repo.data.name)}>
                       <FaTrash size={14}/>
                     </DeleteButton>
-                    {repo.data.name}
+                    <a href={repo.data.url}>{repo.data.name}</a>
                     </span>
                   <Link to={`repository/${encodeURIComponent(repo.data.name)}`}>
-                    <FaBars size={20}/>
+                    <FaBars size={20} />
                   </Link>
                 </li>
             ))}

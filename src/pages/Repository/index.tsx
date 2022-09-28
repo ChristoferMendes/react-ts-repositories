@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import {useParams } from 'react-router-dom'
+import { TypeAnimation } from 'react-type-animation';
 import { Loading } from '../../misc/Loading';
 import { api } from '../../services/api';
 // import api from '../../services/api'
@@ -11,6 +12,7 @@ interface Repository {
     owner?: { avatar_url: string, login: string; }
     name?: string;
     description?: string;
+    html_url?: string;
 }
 
 interface Issues {
@@ -35,6 +37,7 @@ export const Repository = () => {
     {state: 'closed', label: 'Closed', active: false}
   ])
   const [issueFocus, setIssueFocus] = useState(0);
+  const [cursor, setCursor] = useState(true);
   
   useEffect(() => {
     (async () => { //SELF-INVOKING-FUNCTION
@@ -91,8 +94,24 @@ export const Repository = () => {
           src={repository.owner?.avatar_url} 
           alt={`${repository.owner?.login} avatar`}
         />
-        <h1>{repositoryName}</h1>
-        <p>{repository.description}</p>
+        <h1>
+          <a href={repository.html_url} target='_blank'>{repositoryName}</a>
+        </h1>
+        <div>
+          <TypeAnimation 
+            sequence={[
+              `What ${repository.name} repository is about?`,
+              300,
+              `${repository.description}`,
+              500,
+              () => {
+                setCursor(false)
+              }
+            ]}
+            wrapper={'div'}
+            cursor={cursor}
+          />
+        </div>
        </Owner>
 
       <StateFilter active={issueFocus}>
@@ -106,13 +125,14 @@ export const Repository = () => {
         
       
        <IssuesList>
+        
         {issues.map(issue => (
           <li key={String(issue.id)}>
             <img src={issue.user.avatar_url} alt={issue.user.login} />
 
             <div>
               <strong>
-                <a href={issue.html_url}>{issue.title}</a>
+                <a href={issue.html_url} target='_blank'>{issue.title}</a>
 
                 {issue.labels.map(label => (
                   <span key={label.id.toString()}>{label.name}</span>

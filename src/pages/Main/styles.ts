@@ -111,6 +111,10 @@ export const List = styled.ul`
       text-decoration: none;
     }
 
+    span {
+      text-transform: capitalize;
+    }
+
   }
 
 `
@@ -121,9 +125,7 @@ export const DeleteButton = styled.button.attrs({
   margin-left: 6px;
   background: transparent;
   color: #0d2636;
-  border: 0;
   padding: 8px 7px;
-  outline: 0;
   border-radius: 4px;
 
 `

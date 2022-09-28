@@ -24,4 +24,14 @@ export default createGlobalStyle`
     font-family: Arial, Helvetica, sans-serif;
 
   }
+
+  button {
+    cursor: pointer;
+    outline: 0;
+    border: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
 `

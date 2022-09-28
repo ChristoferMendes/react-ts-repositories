@@ -42,8 +42,6 @@ export const Owner = styled.header`
 `
 
 export const BackButton = styled(Link)`
-  border: 0;
-  outline: 0;
   background: transparent;
 `
 export const IssuesList = styled.ul`
@@ -112,14 +110,11 @@ export const PageActions = styled.div`
   justify-content: space-between;
 
   button {
-    outline: 0;
-    border: 0;
     background: #222;
     color: #fff;
     padding: 5px 10px;
     border-radius: 4px;
     width: 100px;
-    cursor: pointer;
 
     &:disabled {
       cursor: not-allowed;
@@ -134,14 +129,11 @@ export const StateFilter = styled.div<IssueFilterProps>`
   
 
   button {
-    outline: 0;
-    border: 0;
     margin: 10px;
     width: 3rem;
     height: 2rem;
     border-radius: 10px;
 
-    cursor: pointer;
 
     &:nth-child(${props => props.active + 1}) {
     background: #0071db;
