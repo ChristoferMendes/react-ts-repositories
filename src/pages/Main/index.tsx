@@ -3,6 +3,7 @@ import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from 'react-icons/fa'
 
 import { Container, Form, SubmitButton, List, DeleteButton } from './styles'
 import { api } from '../../services/api';
+import { Link } from 'react-router-dom';
 
 interface RepositoriesState {
     data: {
@@ -47,9 +48,7 @@ export const Main = () => {
           throw new Error('You need to type a repository')
         }
 
-        const response = await api.get<User>(`repos/${newRepo}`)
-        console.log(newRepo);
-        console.log(repositories.map(r => r.data.name));
+        const response = await api.get<User>(`repos/${newRepo}`);
 
         const hasRepo = repositories.find(repo => repo.data.name.toUpperCase() === newRepo.toUpperCase()) 
 
@@ -83,7 +82,7 @@ export const Main = () => {
   }
 
   const handleDelete = useCallback((repo: any) => {
-    const find = repositories.filter(r => r.name !== repo);
+    const find = repositories.filter(r => r.data.name !== repo);
     setRepositories(find);
   }, [repositories])
 
@@ -110,14 +109,14 @@ export const Main = () => {
             {repositories.map((repo, index) => (
                 <li key={index}>
                   <span>
-                    <DeleteButton onClick={() => handleDelete(repo.name)}>
+                    <DeleteButton onClick={() => handleDelete(repo.data.name)}>
                       <FaTrash size={14}/>
                     </DeleteButton>
                     {repo.data.name}
                     </span>
-                  <a href="">
+                  <Link to={`repository/${repo.data.name}`}>
                     <FaBars size={20}/>
-                  </a>
+                  </Link>
                 </li>
             ))}
       </List>
