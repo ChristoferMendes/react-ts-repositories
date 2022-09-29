@@ -4,6 +4,7 @@ import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from 'react-icons/fa'
 import { Container, Form, SubmitButton, List, DeleteButton } from './styles'
 import { api } from '../../services/api';
 import { Link } from 'react-router-dom';
+import { RenderHearts } from '../../components/RenderHearts';
 
 interface RepositoriesState {
     data: {
@@ -115,12 +116,14 @@ export const Main = () => {
                       <FaTrash size={14}/>
                     </DeleteButton>
                     <a href={repo.data.url}>{repo.data.name}</a>
-                    </span>
+                    <RenderHearts />
+                  </span>
                   <Link to={`repository/${encodeURIComponent(repo.data.name)}`}>
                     <FaBars size={20} />
                   </Link>
                 </li>
             ))}
+           
       </List>
     </Container>
   )
